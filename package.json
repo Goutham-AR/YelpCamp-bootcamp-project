@@ -1,0 +1,23 @@
+{
+  "name": "yelpcamp",
+  "version": "1.0.0",
+  "description": "Project for bootcamp",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Goutham-AR/YelpCamp-bootcamp-project.git"
+  },
+  "author": "Goutham-AR",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Goutham-AR/YelpCamp-bootcamp-project/issues"
+  },
+  "homepage": "https://github.com/Goutham-AR/YelpCamp-bootcamp-project#readme",
+  "dependencies": {
+    "ejs": "^3.0.1",
+    "express": "^4.17.1"
+  }
+}
