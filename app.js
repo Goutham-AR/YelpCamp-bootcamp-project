@@ -9,6 +9,7 @@ app.set("view engine", "ejs");
 app.get("/", function(req, res){
     res.render("home");
 });
+
 app.get("/campgrounds", function(req, res){
     let campgrounds = [
         {name: "Salmon Creek", image: "https://invinciblengo.org/photos/event/slider/manali-girls-special-adventure-camp-himachal-pradesh-1xJtgtx-1440x810.jpg"},
@@ -17,6 +18,11 @@ app.get("/campgrounds", function(req, res){
     ];
     res.render("campgrounds", {campgrounds: campgrounds});
 });
+
+app.post("/campgrounds", function(req, res){
+    
+});
+
 
 
 
