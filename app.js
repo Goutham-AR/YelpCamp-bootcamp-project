@@ -7,6 +7,8 @@ const mongoose = require("mongoose");
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useUnifiedTopology', true);
 mongoose.connect("mongodb://localhost/yelpCamp");
+
+
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 
@@ -14,66 +16,74 @@ app.set("view engine", "ejs");
 //Setting up  a schema
 let campgroundSchema = new mongoose.Schema({
     name: String,
-    image: String
+    image: String,
+    description: String
 });
 
+// modeling the created schema into a collection
 let campground = mongoose.model("campground", campgroundSchema);
 
-/* campground.create(
-    {
-        name: "Mountain Goat's Rest", 
-        image: "https://maotchitim.org/wp-content/uploads/2019/07/camp-2587926_960_720.jpg"
-    }, function(err, campground){
-        if(err){
-            console.log("there is an error", err);
-        } else {
-            console.log("successfully added ", campground);
-        }
-    }); */
 
-/* let campgrounds = [
-    {
-        name: "Salmon Creek", 
-        image: "https://invinciblengo.org/photos/event/slider/manali-girls-special-adventure-camp-himachal-pradesh-1xJtgtx-1440x810.jpg"},
-    {
-        name: "Granite Hill",
-        image: "https://i.pinimg.com/originals/ff/81/4e/ff814e63495c488f692617ff11e3f784.jpg"},
-    {
-        name: "Mountain Goat's Rest", 
-        image: "https://maotchitim.org/wp-content/uploads/2019/07/camp-2587926_960_720.jpg"}
-];
+/* 
+campground.create({
+    name: "Granite Hill",
+    image: "https://wusfnews.wusf.usf.edu/sites/wusf/files/styles/x_large/public/202003/florida_state_parks_camping_fsp.jpg",
+    description: "This is a famous camping place high above the hill."
+}, function(err, newCamp) {
+    if(err) {
+        console.log(err, "error");
+    } else {
+        console.log(newCamp);
+    }
+});
  */
 
 
 
-
+// Routes
+//--------------------
 
 app.get("/", function(req, res){
     res.render("home");
 });
 
+// INDEX
 app.get("/campgrounds", function(req, res){
-    campground.find({}, function(err, allCampgrounds){
+    campground.find({}, function(err, allCampgrounds){                      // retrieving all datas from the database to render....
         if(err){
             console.log("error", err);
         } else {
-            res.render("campgrounds", {campgrounds: allCampgrounds});
+            res.render("index", {campgrounds: allCampgrounds});
         }
-    })
+    });
 });
 
+// NEW
 app.get("/campgrounds/new", function(req, res){
     res.render("new");
 })
 
+// CREATE 
 app.post("/campgrounds", function(req, res){
-    let newCampground = {name: req.body.name, image: req.body.image};
-    campground.create(newCampground, function(err, campground){
+    let newCampground = {name: req.body.name, image: req.body.image, description: req.body.description };
+    campground.create(newCampground, function(err, campground){             // add new documents into the collection
         if(err) {
             console.log("error", err);
         } else {
             res.redirect("/campgrounds");
             console.log("added successfully", campground);
+        }
+    });
+});
+
+// SHOW --- show more info about one campground.......
+app.get("/campgrounds/:id", function(req, res){
+    // console.log(req.params);
+    campground.findById(req.params.id, function(err, camp) {
+        if(err) {
+            console.log(err, "error");
+        } else {
+            res.render("show", {campground: camp});
         }
     });
 });
